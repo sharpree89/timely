@@ -7,13 +7,13 @@
   {% load staticfiles %}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
   <link rel="stylesheet" href="{% static 'css/style.css' %}" media="screen" title="no title" charset="utf-8">
-  <!-- <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
     $('select').material_select();
     });
-  </script> -->
+  </script>
   <title>timely</title>
 </head>
 <body>
@@ -25,44 +25,27 @@
         <ul id="nav-mobile" class="right hide-on-med-and-down">
           <li>Welcome, {{ request.session.username }}</li>
           <li><a href="{% url 'appts:appts' %}">My Schedule</a></li>
-          <li class="active"><a href="#">My History</a></li>
-          <li><a href="{% url 'appts:account' %}">My Account</a></li>
+          <li><a href="{% url 'appts:history' %}">My History</a></li>
+          <li class="active"><a href="{% url 'appts:account' %}">My Account</a></li>
           <li><a href="{% url 'appts:logout' %}">Log Out</a></li>
         </ul>
       </div>
     </nav>
   </div>
 
-  <div id="past">
-    <h4 class="header">Appointment History</h4>
-    {% if my_past_appts|length == 0 %}
-    <h5>You have no appointment history.</h5>
-    {% elif my_past_appts|length > 0 %}
-    <table class="responsive-table">
-      <tr class="border">
-        <th>Icon</th>
-        <th>Title</th>
-        <th>Date</th>
-        <th>Time</th>
-        <th>Location</th>
-        <th>Status</th>
-        <th>Edit</th>
-        <th>Delete</th>
-      </tr>
-      {% for appt in my_past_appts %}
-        <tr class="border">
-          <td>{{ appt.my_symbol }}</td>
-          <td>{{ appt.my_task }}</td>
-          <td>{{ appt.my_date }}</td>
-          <td>{{ appt.my_time }}</td>
-          <td>{{ appt.my_location }}</td>
-          <td>{{ appt.my_status }}</td>
-          <td><a href="{% url 'appts:edit' appt_id=appt.id %}" class="url">Edit</a></td>
-          <td><a href="{% url 'appts:delete' appt_id=appt.id %}" class="url">Delete</a></td>
-        </tr>
-      {% endfor %}
-    </table>
-    {% endif %}
+  <div id="account">
+    <h4 class="header">Update Account</h4>
+    <form action="{% url 'appts:process_account' user_id=user.id %}" method='post'>
+      {% csrf_token %}
+      <label for="username">Username</label>
+      <input type='text' name='username' value='{{ user.username }}'>
+      <label for="email">Email</label>
+      <input type='text' name='email' value='{{ user.email }}'>
+      <input class="button" type='submit' value='Save Changes'>
+      <input type='hidden' name='user_id' value='{{ user.id }}'>
+    </form>
+    <p>Changes will take effect the next time you log in.</p>
+    <p><a href="{% url 'appts:delete_account' user_id=user.id %}" class="url">Delete Account</a></p>
   </div>
 
   <footer class="page-footer">
@@ -80,5 +63,6 @@
       </div>
     </div>
   </footer>
+
 </body>
 </html>

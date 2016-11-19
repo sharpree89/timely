@@ -2,23 +2,15 @@ from __future__ import unicode_literals
 from django.db import models
 import re
 import bcrypt
-from datetime import datetime, timedelta, date, time
-from time import strftime
 
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9\.\+_-]+@[a-zA-Z0-9\._-]+\.[a-zA-Z]*$')
 
 class UserManager(models.Manager):
     def register(self, data):
         errors = []
-        bday = data['birthday']
-        now = strftime("%Y-%m-%d")
 
-        if len(data['name']) < 2:
-            errors.append('Name is too short!')
-        if bday == "":
-            errors.append('Birthday cannot be blank!')
-        if bday > now:
-            errors.append('Birthday cannot be in the future!')
+        if len(data['username']) < 6:
+            errors.append('Username is too short!')
         if not EMAIL_REGEX.match(data['email']):
             errors.append('That is an invalid email!')
         if len(data['password']) < 8:
@@ -29,11 +21,11 @@ class UserManager(models.Manager):
         user = self.filter(email=data['email'])
         # filter returns a list. if it's empty, the user doesnt exist yet. if the list has something in it, throw an error because the user already exists.
         if user:
-            errors.append('That name is already taken!')
+            errors.append('That e-mail address is already taken!')
         if errors:
             return [False, errors]
         hashed = bcrypt.hashpw(data['password'].encode(), bcrypt.gensalt())
-        user = self.create(name = data['name'], birthday = data['birthday'], email = data['email'], password = hashed)
+        user = self.create(username = data['username'], email = data['email'], password = hashed)
         # do the rest for all the other inputs and stick inside the create method
         return [True, user]
 
@@ -54,8 +46,7 @@ class UserManager(models.Manager):
         return [False, errors]
 
 class User(models.Model):
-    name = models.CharField(max_length = 30, blank = False)
-    birthday = models.DateField(blank = False)
+    username = models.CharField(max_length = 30, blank = False)
     email = models.EmailField(blank = False, unique = True)
     password = models.CharField(max_length = 255, blank = False)
     created_at = models.DateTimeField(auto_now_add = True)

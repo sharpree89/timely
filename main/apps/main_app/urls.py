@@ -19,12 +19,23 @@ urlpatterns = [
     # #redirects to /appts
     url(r'^edit/(?P<appt_id>\d+)$', views.edit, name='edit'),
     # #the edit link redirects to a page w/ a form to edit that appt
-    url(r'^process(?P<appt_id>\d+)$', views.process, name='process'),
+    url(r'^process/(?P<appt_id>\d+)$', views.process, name='process'),
     # #processes the .save() of editing an existing appt
+    # #redirects to /appts
+    url(r'^complete/(?P<appt_id>\d+)$', views.complete, name='complete'),
+    # #processes marking an appt as 'complete'
     # #redirects to /appts
     url(r'^delete/(?P<appt_id>\d+)$', views.delete, name='delete'),
     # #delete link processes the .delete()
     # #redirects to /appts
+    url(r'^account$', views.account, name='account'),
+    #displays a form update account details
+    url(r'^process_account/(?P<user_id>\d+)$$', views.process_account, name='process_account'),
+    #processes any changes to account details
+    #redirects to /account
+    url(r'^delete_account/(?P<user_id>\d+)$', views.delete_account, name='delete_account'),
+    # #delete link deletes the user's account
+    # #redirects to /
     url(r'^logout$', views.logout, name='logout')
 
 ]

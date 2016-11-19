@@ -16,7 +16,7 @@ def register(request):
         user = User.objects.register(request.POST)
     if user[0]:
         request.session['user_id'] = user[1].id
-        request.session['name'] = user[1].name
+        request.session['username'] = user[1].username
 
         return redirect(reverse ('appts:appts'))
 
@@ -29,7 +29,7 @@ def login(request):
     user = User.objects.login(request.POST)
     if user[0]:
         request.session['user_id'] = user[1].id
-        request.session['name'] = user[1].name
+        request.session['username'] = user[1].username
 
         return redirect(reverse ('appts:appts'))
 
