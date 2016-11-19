@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  {% load staticfiles %}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" media="screen" title="no title" charset="utf-8">
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
   <script type="text/javascript">
@@ -23,7 +25,8 @@
         <ul id="nav-mobile" class="right hide-on-med-and-down">
           <li><a href="#">Welcome, {{ request.session.name }}</a></li>
           <li><a href="{% url 'appts:appts' %}">My Schedule</a></li>
-          <li><a href="{% url 'appts:new' %}">Add An Appointment</a></li>
+          <li><a href="{% url 'appts:history' %}">My History</a></li>
+          <li><a href="{% url 'appts:new' %}">Add Appointment</a></li>
           <li><a href="{% url 'appts:logout' %}">Log Out</a></li>
         </ul>
       </div>
@@ -32,30 +35,36 @@
 
   {% if messages %}
     {% for message in messages %}
-        <p>{% if message.tags %} class="{{ message.tags }}"
-          {% endif %}> {{ message }} </p>
+      {% if message.tags %}
+        <h5>{{ message }}</h5>
+      {% endif %}>
     {% endfor %}
   {% endif %}
 
   <div id="edit">
-    <h4 class="header">Update This Appointment</h4>
+    <h4 class="header">Edit "{{ appt.my_task }}"</h4>
     <form action="{% url 'appts:process' appt_id=appt.id %}" method='post'>
       {% csrf_token %}
-      <b>Task:</b> <input type='text' name='task' value='{{ appt.my_task }}'>
+      <label for="status">Status</label>
+      <select name='status' value='{{ appt.my_status }}'>
+          <option value='Pending'>Pending</option>
+          <option value='Missed'>Missed</option>
+          <option value='Complete'>Complete</option>
+       </select>
 
-      <b>Status:</b> <select name='status' value='{{ appt.my_status }}'>
-                        <option value='Pending'>Pending</option>
-                        <option value='Missed'>Missed</option>
-                        <option value='Complete'>Complete</option>
-                     </select>
+      <label for="task">Title</label>
+      <input type='text' name='task' value='{{ appt.my_task }}'>
 
-      <b>Date:</b> <input type='date' name='date' value='{{ appt.my_date|date:"Y-m-d" }}'>
+      <label for="date">Date</label>
+      <input type='date' name='date' value='{{ appt.my_date|date:"Y-m-d" }}'>
 
-      <b>Time:</b> <input type='time' name='time' value='{{ appt.my_time|time:"H:i" }}'>
+      <label for="time">Time</label>
+      <input type='time' name='time' value='{{ appt.my_time|time:"H:i" }}'>
 
-      <b>Location:</b> <input type='text' name='location' value='{{ appt.my_location }}'>
+      <label for="location">Location</label>
+      <input type='text' name='location' value='{{ appt.my_location }}'>
 
-      <b>Icon:</b>
+      <label for="symbol">Icon</label>
       <div class="input-field">
         <select name='symbol' value='{{ appt.my_symbol }}'>
           <option value="&#x2764;">&#x2764;</option>

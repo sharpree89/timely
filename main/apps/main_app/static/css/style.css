@@ -1,0 +1,59 @@
+.brand-logo{
+  margin-left: 5%;
+}
+
+.header{
+  color: #C2595E;
+}
+
+.border{
+  border-bottom: 1px solid #bdbdbd;
+}
+
+.button{
+  background-color: #EE6E73;
+  color: white;
+  padding: 3% 10%;
+  box-shadow: none !important;
+  border: none !important;
+  border-radius: 10px;
+}
+
+.url{
+  color: #EE6E73;
+}
+
+#login{
+  width: 25%;
+  margin-left: 38%;
+}
+
+#register{
+  width: 25%;
+  margin-left: 38%;
+}
+
+#today{
+  width: 75%;
+  margin: 10%;
+}
+
+#future{
+  width: 75%;
+  margin: 10%;
+}
+
+#edit{
+  width: 50%;
+  margin: 10%
+}
+
+#new{
+  width: 50%;
+  margin: 10%
+}
+
+#past{
+  width: 75%;
+  margin: 10%
+}

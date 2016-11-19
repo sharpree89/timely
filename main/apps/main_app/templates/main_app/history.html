@@ -23,9 +23,9 @@
       <div class="nav-wrapper">
         <a href="#" class="brand-logo">&#x1f552; timely</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <li>Welcome, {{ request.session.name }}</li>
-          <li class="active"><a href="#">My Schedule</a></li>
-          <li><a href="{% url 'appts:history' %}">My History</a></li>
+          <li><a href="#">Welcome, {{ request.session.name }}</a></li>
+          <li><a href="{% url 'appts:appts' %}">My Schedule</a></li>
+          <li class="active"><a href="#">My History</a></li>
           <li><a href="{% url 'appts:new' %}">Add Appointment</a></li>
           <li><a href="{% url 'appts:logout' %}">Log Out</a></li>
         </ul>
@@ -33,8 +33,8 @@
     </nav>
   </div>
 
-  <div id="today">
-    <h3 class="header">{{ today }}</h3>
+  <div id="past">
+    <h3 class="header">Appointment History:</h3>
     <table class="responsive-table">
       <tr class="border">
         <th></th>
@@ -43,10 +43,8 @@
         <th>Time</th>
         <th>Location</th>
         <th>Status</th>
-        <th>Edit</th>
-        <th>Delete</th>
       </tr>
-      {% for appt in my_today_appts %}
+      {% for appt in my_past_appts %}
         <tr class="border">
           <td><h5>{{ appt.my_symbol }}</h5></td>
           <td>{{ appt.my_task }}</td>
@@ -54,46 +52,6 @@
           <td>{{ appt.my_time }}</td>
           <td>{{ appt.my_location }}</td>
           <td>{{ appt.my_status }}</td>
-          {% if appt.my_status == 'Pending' or appt.my_status == 'Missed' %}
-            <td><a href="{% url 'appts:edit' appt_id=appt.id %}" class="url">Edit</a></td>
-            <td><a href="{% url 'appts:delete' appt_id=appt.id %}" class="url">Delete</a></td>
-          {% else %}
-            <td><a href="#" class="url">Edit</a></td>
-            <td><a href="#" class="url">Delete</a></td>
-          {% endif %}
-        </tr>
-      {% endfor %}
-    </table>
-  </div>
-  <hr>
-  <div id="future">
-    <h4 class="header">Upcoming appointments:</h4>
-    <table class="responsive-table">
-      <tr class="border">
-        <th></th>
-        <th>Title</th>
-        <th>Date</th>
-        <th>Time</th>
-        <th>Location</th>
-        <th>Status</th>
-        <th>Edit</th>
-        <th>Delete</th>
-      </tr>
-      {% for appt in my_future_appts %}
-        <tr class="border">
-          <td><h5>{{ appt.my_symbol }}<h5></td>
-          <td>{{ appt.my_task }}</td>
-          <td>{{ appt.my_date }}</td>
-          <td>{{ appt.my_time }}</td>
-          <td>{{ appt.my_location }}</td>
-          <td>{{ appt.my_status }}</td>
-          {% if appt.my_status == 'Pending' or appt.my_status == 'Missed' %}
-            <td><a href="{% url 'appts:edit' appt_id=appt.id %}" class="url">Edit</a></td>
-            <td><a href="{% url 'appts:delete' appt_id=appt.id %}" class="url">Delete</a></td>
-          {% else %}
-            <td><a href="#" class="url">Edit</a></td>
-            <td><a href="#" class="url">Delete</a></td>
-          {% endif %}
         </tr>
       {% endfor %}
     </table>

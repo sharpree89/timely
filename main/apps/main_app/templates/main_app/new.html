@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  {% load staticfiles %}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" media="screen" title="no title" charset="utf-8">
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
   <script type="text/javascript">
@@ -23,22 +25,39 @@
         <ul id="nav-mobile" class="right hide-on-med-and-down">
           <li><a href="#">Welcome, {{ request.session.name }}</a></li>
           <li><a href="{% url 'appts:appts' %}">My Schedule</a></li>
-          <li class="active"><a href="#">Add An Appointment</a></li>
+          <li><a href="{% url 'appts:history' %}">My History</a></li>
+          <li class="active"><a href="#">Add Appointment</a></li>
           <li><a href="{% url 'appts:logout' %}">Log Out</a></li>
         </ul>
       </div>
     </nav>
   </div>
 
+  {% if messages %}
+    {% for message in messages %}
+      {% if message.tags %}
+        <h5>{{ message }}</h5>
+      {% endif %}>
+    {% endfor %}
+  {% endif %}
+
   <div id="new">
     <h4 class="header">Add An Appointment:</h4>
     <form action="{% url 'appts:add' %}" method='post'>
       {% csrf_token %}
-      <b>Date:</b> <input type='date' name='date'>
-      <b>Time:</b> <input type='time' name='time'>
-      <b>Task:</b> <input type='text' name='task'>
-      <b>Location:</b> <input type='text' name='location'>
-      <b>Icon:</b>
+      <label for="task">Title</label>
+      <input type='text' name='task'>
+
+      <label for="date">Date</label>
+      <input type='date' name='date'>
+
+      <label for="time">Time</label>
+      <input type='time' name='time'>
+
+      <label for="location">Location</label>
+      <input type='text' name='location'>
+
+      <label for="symbol">Icon</label>
       <div class="input-field">
         <select name='symbol'>
           <option value="" disabled selected>Choose One</option>
@@ -111,13 +130,6 @@
       <input class="button" type='submit' value='Add Appointment'>
     </form>
   </div>
-
-  {% if messages %}
-    {% for message in messages %}
-        <p>{% if message.tags %} class="{{ message.tags }}"
-          {% endif %}> {{ message }} </p>
-    {% endfor %}
-  {% endif %}
 
   <footer class="page-footer">
     <div class="container">
