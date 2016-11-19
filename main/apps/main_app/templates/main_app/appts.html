@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+    $('select').material_select();
+    });
+  </script>
+  <title>timely</title>
+</head>
+<body>
+
+  <div class="navbar-fixed">
+    <nav>
+      <div class="nav-wrapper">
+        <a href="#" class="brand-logo">&#x1f552; timely</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li><a href="#">Welcome, {{ request.session.name }}</a></li>
+          <li class="active"><a href="#">My Schedule</a></li>
+          <li><a href="{% url 'appts:new' %}">Add An Appointment</a></li>
+          <li><a href="{% url 'appts:logout' %}">Log Out</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <div id="today">
+    <h3 class="header">Schedule for today, {{ today }}:</h3>
+    <table class="bordered">
+      <tr>
+        <th></th>
+        <th>Task</th>
+        <th>Location</th>
+        <th>Time</th>
+        <th>Status</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+      {% for appt in my_today_appt %}
+        <tr>
+          <td><h5>{{ appt.my_symbol }}</h5></td>
+          <td>{{ appt.my_task }}</td>
+          <td>{{ appt.my_location }}</td>
+          <td>{{ appt.my_time }}</td>
+          <td>{{ appt.my_status }}</td>
+          {% if appt.my_status == 'Pending' or appt.my_status == 'Missed' %}
+            <td><a href="{% url 'appts:edit' appt_id=appt.id %}" class="url">Edit</a></td>
+            <td><a href="{% url 'appts:delete' appt_id=appt.id %}" class="url">Delete</a></td>
+          {% else %}
+            <td><a href="#" class="url">Edit</a></td>
+            <td><a href="#" class="url">Delete</a></td>
+          {% endif %}
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  <div id="future">
+    <h4 class="header">Upcoming appointments:</h4>
+    <table class="bordered">
+      <tr>
+        <th></th>
+        <th>Task</th>
+        <th>Location</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Status</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+      {% for appt in my_future_appt %}
+        <tr>
+          <td><h5>{{ appt.my_symbol }}<h5></td>
+          <td>{{ appt.my_task }}</td>
+          <td>{{ appt.my_location }}</td>
+          <td>{{ appt.my_date }}</td>
+          <td>{{ appt.my_time }}</td>
+          <td>{{ appt.my_status }}</td>
+          <td><a href="{% url 'appts:edit' appt_id=appt.id %}" class="url">Edit</a></td>
+          <td><a href="{% url 'appts:delete' appt_id=appt.id %}" class="url">Delete</a></td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  <footer class="page-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">thanks for using timely!</h5>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+      © 2016 Copyright Preeya Sharma
+      <a class="grey-text text-lighten-4 right" href="https://github.com/sharpree89">github</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

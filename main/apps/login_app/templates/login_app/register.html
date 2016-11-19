@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+  <title>timely</title>
+</head>
+<body>
+
+  <div class="navbar-fixed">
+    <nav>
+      <div class="nav-wrapper">
+        <a href="#" class="brand-logo">&#x1f552; timely</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li><a href="#">Welcome!</a></li>
+          <li class="active"><a href="#">Register</a></li>
+          <li><a href="{% url 'login:login_home' %}">Login</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <div id="register">
+    <h4 class="header">Register</h4>
+    {% if messages %}
+      {% for message in messages %}
+          <p>{% if message.tags %} class="{{ message.tags }}"
+            {% endif %}> {{ message }} </p>
+      {% endfor %}
+    {% endif %}
+    <form action="{% url 'login:register' %}" method='post'>
+        {% csrf_token %}
+      Name: <input type="text" name='name' autofocus>
+      Date of Birth: <input type="date" name='birthday'>
+      Email: <input type="text" name='email'>
+      Password: <input type="password" name='password'>
+      Confirm Password: <input type="password" name='confirm_password'>
+      <input class="button" type='submit' value='Register'>
+    </form>
+  </div>
+
+  <footer class="page-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">thanks for using timely!</h5>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+      © 2016 Copyright Preeya Sharma
+      <a class="grey-text text-lighten-4 right" href="https://github.com/sharpree89">github</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
