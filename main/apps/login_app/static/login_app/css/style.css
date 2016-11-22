@@ -1,0 +1,164 @@
+*{
+  font-family: 'Nunito', sans-serif;
+}
+
+body{
+   display: flex;
+   min-height: 100vh;
+   flex-direction: column;
+}
+
+main{
+   flex: 1 0 auto;
+}
+
+.brand-logo{
+  margin-left: 2.5%;
+}
+
+.header{
+}
+
+.newheader{
+}
+
+.editheader{
+  margin: 5% 2.5% 2.5% 2.5%;
+}
+
+.loginheader{
+  border-bottom: 1px solid #9E9E9E;
+  padding-bottom: 2%;
+}
+
+.registerheader{
+  border-bottom: 1px solid #9E9E9E;
+  padding-bottom: 2%;
+}
+
+#login{
+  width: 33%;
+  margin: 0 0 5% 5%;
+}
+
+#register{
+  width: 33%;
+  margin: 0 0 5% 5%;
+}
+
+.border{
+  border-bottom: 1px solid #bdbdbd;
+}
+
+.button{
+  background-color: #00b8d4;
+  color: white;
+  box-shadow: none !important;
+  border: none !important;
+  outline: none !important;
+  padding: 14px 28px;
+}
+
+.editbutton{
+  background-color: #00b8d4;
+  color: white;
+  box-shadow: none !important;
+  border: none !important;
+  outline: none !important;
+  padding: 14px 28px;
+  margin-top: 3%;
+}
+
+.newbutton{
+  background-color: #00b8d4;
+  color: white;
+  box-shadow: none !important;
+  border: none !important;
+  outline: none !important;
+  padding: 14px 28px;
+  margin-top: 3%;
+}
+
+.navpics{
+  margin-top: 10%;
+}
+
+table{
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-collapse: collapse;
+}
+
+td{
+  width: 100px;
+  padding: 5px;
+  margin: 0;
+  border: 0;
+}
+td.last{
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+.url{
+  color: #00b8d4;
+  font-weight: bold;
+}
+
+#editcontainer{
+  margin: 2.5%;
+}
+
+#newcontainer{
+  margin: 2.5%;
+}
+
+.edit{
+  width: 20%;
+  margin: 0% 2.5% 2.5% 2.5%;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.new{
+  width: 20%;
+  margin: 0% 2.5% 2.5% 2.5%;
+  display: inline-block;
+  vertical-align: top;
+}
+
+#today{
+  width: 75%;
+  margin: 5%;
+}
+
+#future{
+  width: 75%;
+  margin: 5%;
+}
+
+#account{
+  width: 33%;
+  margin: 5%;
+}
+
+#new{
+  width: 50%;
+  margin: 5%;
+}
+
+#past{
+  width: 75%;
+  margin: 5%;
+}
+
+ul.footer li{
+  display: inline;
+}
+
+div.errors{
+  width: 25%;
+  margin: 2.5% 0 0 5%;
+}

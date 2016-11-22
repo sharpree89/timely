@@ -6,23 +6,23 @@ from .models import Appt, ApptManager
 from ..login_app.models import User, UserManager
 from django.db.models import Q
 from django.contrib import messages
+import re
+import bcrypt
+
+EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9\.\+_-]+@[a-zA-Z0-9\._-]+\.[a-zA-Z]*$')
+
+#-------------------------------------------------------------------------------
+# APPOINTMENT ROUTES
 
 def login_home(request):
-    print '%'*75
-    print 'I am on the login page!'
-    print '%'*75
+
     return render(request, 'login_app/login.html')
 
 def register_home(request):
-    print '%'*75
-    print 'I am on the login page!'
-    print '%'*75
+
     return render(request, 'login_app/register.html')
 
 def appts(request):
-    print '%'*75
-    print 'I am on the appts page!'
-    print '%'*75
 
     now = datetime.datetime.now()
 
@@ -47,12 +47,6 @@ def appts(request):
             ).exclude(my_status='Complete'
             ).order_by('my_time')
     }
-    print '%'*75
-    if len(context['my_today_appts']) == 0:
-        print context['my_today_appts']
-    if len(context['my_future_appts']) == 0:
-        print context['my_future_appts']
-    print '%'*75
     return render(request, 'main_app/appts.html', context)
 
 def history(request):
@@ -70,6 +64,7 @@ def history(request):
     return render(request, 'main_app/history.html', context)
 
 def new(request):
+
     return render(request, 'main_app/new.html')
 
 def add(request):
@@ -83,14 +78,16 @@ def add(request):
             my_task=request.POST['task'],
             my_date=request.POST['date'],
             my_time=request.POST['time'],
-            my_location=request.POST['location'] or 'None',
-            my_type=request.POST['type'] or 'None',
-            my_priority=request.POST['priority'] or 'None',
-            my_status='Pending',
-            my_symbol=request.POST['symbol'] or '&#x263a;'
+            my_location=request.POST['location'],
+            my_type=request.POST['type'],
+            my_priority=request.POST['priority'],
+            my_status='Pending'
         )
         new_appt.save()
-        return redirect(reverse ('appts:appts'))
+        context = {
+            'success': "'" + request.POST['task'] + "'" + " has been added to your schedule!"
+        }
+        return render(request, 'main_app/new.html', context)
     else:
         errors = appt[1]
         for error in errors:
@@ -101,31 +98,45 @@ def edit(request, appt_id):
 
     context = {
         'appt': Appt.objects.get(id=appt_id)
-        }
+    }
     return render(request, 'main_app/edit.html', context)
 
 def process(request, appt_id):
 
-    appt = Appt.ApptManager.add(request.POST)
-    logged_in = User.objects.get(id=request.session['user_id'])
+    errors = []
 
-    if appt[0] == False:
-        appt = Appt.objects.get(id=appt_id)
-        appt.my_task = request.POST['task']
-        appt.my_date = request.POST['date']
-        appt.my_time = request.POST['time']
-        appt.my_location = request.POST['location'] or 'None'
-        appt.my_type = request.POST['type']
-        appt.my_priority = request.POST['priority']
-        appt.my_status = request.POST['status']
-        appt.my_symbol = request.POST['symbol']
-        appt.save()
-        return redirect(reverse ('appts:appts'))
-    else:
-        errors = appt[1]
+    if request.POST['type'] == "Choose One":
+        errors.append("Please choose an appointment type.")
+
+    if request.POST['priority'] == "Choose One":
+        errors.append("Please choose an appointment priority.")
+
+    if request.POST['status'] == "Choose One":
+        errors.append("Please choose an appointment status.")
+
+    if errors:
         for error in errors:
                 messages.error(request, error)
         return redirect(reverse ('appts:edit', kwargs={'appt_id':appt_id}))
+
+    else:
+        appt = Appt.ApptManager.add(request.POST)
+
+        if appt[0] == False:
+            appt = Appt.objects.get(id=appt_id)
+            appt.my_task = request.POST['task']
+            appt.my_date = request.POST['date']
+            appt.my_time = request.POST['time']
+            appt.my_location = request.POST['location']
+            appt.my_type = request.POST['type']
+            appt.my_priority = request.POST['priority']
+            appt.my_status = request.POST['status']
+            appt.save()
+            context = {
+                'appt': Appt.objects.get(id=appt_id),
+                'success': "Changes to " + "'" + request.POST['task'] + "'" + " have been saved!"
+            }
+            return render(request, 'main_app/edit.html', context)
 
 def complete(request, appt_id):
 
@@ -135,35 +146,81 @@ def complete(request, appt_id):
 
     return redirect(reverse ('appts:appts'))
 
-#-------------------------
+#-------------------------------------------------------------------------------
+# USER ACCOUNT SETTINGS
 
 def account(request):
 
     context = {
         'user': User.objects.get(id=request.session['user_id'])
-        }
+    }
     return render(request, 'main_app/account.html', context)
 
-def process_account(request, user_id):
+def change_username(request, user_id):
 
-    user = User.objects.get(id=request.session['user_id'])
+    errors = []
 
-    user.username = request.POST['username']
-    user.email = request.POST['email']
+    if len(request.POST['username']) < 6:
+        errors.append('Username must have at least 6 characters.')
 
-    user.save()
-    return redirect(reverse ('appts:account'))
+    if errors:
+        for error in errors:
+                messages.error(request, error)
+        return redirect(reverse ('appts:account'))
+
+    else:
+        user = User.objects.get(id=request.session['user_id'])
+        user.username = request.POST['username']
+        user.save()
+        return redirect(reverse ('appts:appts'))
+
+def change_email(request, user_id):
+
+    errors = []
+
+    if not EMAIL_REGEX.match(request.POST['email']) or len(request.POST['email']) == 0:
+        errors.append('Please enter a valid email address.')
+
+    if errors:
+        for error in errors:
+                messages.error(request, error)
+        return redirect(reverse ('appts:account'))
+
+    else:
+        user = User.objects.get(id=request.session['user_id'])
+        user.email = request.POST['email']
+        user.save()
+        return redirect(reverse ('appts:appts'))
+
+def change_password(request, user_id):
+
+    errors = []
+
+    if len(request.POST['password']) < 8:
+        errors.append('Password must have at least 8 characters.')
+    if request.POST['password'] != request.POST['confirm_password']:
+        errors.append('The passwords you entered did not match.')
+
+    if errors:
+        for error in errors:
+                messages.error(request, error)
+        return redirect(reverse ('appts:account'))
+
+    else:
+        user = User.objects.get(id=request.session['user_id'])
+        hashed = bcrypt.hashpw(request.POST['password'].encode(), bcrypt.gensalt())
+        user.password = hashed
+        user.save()
+        return redirect(reverse ('appts:appts'))
 
 def delete_account(request, user_id):
 
     user = User.objects.get(id=user_id)
-    user_appts = Appt.objects.filter(user__id=request.session['user_id'])
-    
+
     user.delete()
-    user_appts.delete()
     return redirect(reverse ('login:register_home'))
 
-#--------------------------
+#-------------------------------------------------------------------------------
 
 def delete(request, appt_id):
 

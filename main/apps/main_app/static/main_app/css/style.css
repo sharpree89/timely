@@ -1,0 +1,195 @@
+*{
+  font-family: 'Nunito', sans-serif;
+}
+
+body{
+   display: flex;
+   min-height: 100vh;
+   flex-direction: column;
+}
+
+main{
+   flex: 1 0 auto;
+}
+
+.brand-logo{
+  margin-left: 2.5%;
+}
+
+.header{
+  font-weight: bold;
+}
+
+.editheader{
+  margin: 0 2.5% 2.5% 0;
+  border-bottom: 1px solid #bdbdbd;
+  padding-bottom: 1%;
+  width: 43%;
+  font-weight: bold;
+}
+
+.editbutton{
+  background-color: #d500f9;
+  color: white;
+  box-shadow: none !important;
+  border: none !important;
+  outline: none !important;
+  padding: 14px 28px;
+  margin-top: 3%;
+}
+
+#editcontainer{
+  margin: 0 0 5% 5%;
+}
+
+.edit{
+  width: 20%;
+  margin: 0% 2.5% 2.5% 0;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.tableheader{
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.button{
+  background-color: #00b8d4;
+  color: white;
+  box-shadow: none !important;
+  border: none !important;
+  outline: none !important;
+  padding: 14px 28px;
+}
+
+.newbutton{
+  background-color: #00b8d4;
+  color: white;
+  box-shadow: none !important;
+  border: none !important;
+  outline: none !important;
+  padding: 14px 28px;
+}
+
+.navpics{
+  margin-top: 10%;
+}
+
+table{
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-collapse: collapse;
+}
+
+td{
+  /*width: 100px;*/
+  padding: 5px;
+  margin: 0;
+  border: 0;
+}
+
+td.last{
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+.url{
+  color: #d500f9;
+  font-weight: bold;
+}
+
+.prioritybutton{
+  background-color: #00b8d4;
+  color: white;
+  box-shadow: none !important;
+  border: none !important;
+  outline: none !important;
+  padding: 6% 12%;
+}
+
+#newcontainer{
+  margin: 2.5% 0 5% 5%;
+  display: inline-block;
+}
+
+.new{
+  width: 25%;
+  margin: 2.5% 2.5% 0 0;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.newheader{
+  margin: 0 0 0 0;
+  padding-bottom: 1%;
+  width: 53%;
+  border-bottom: 1px solid #bdbdbd;
+  font-weight: bold;
+}
+
+#login{
+  width: 33%;
+  margin-left: 38%;
+  padding: 5%;
+}
+
+#register{
+  width: 33%;
+  margin-left: 38%;
+  padding: 5%;
+}
+
+#today{
+  width: 80%;
+  margin: 2.5% 0 2.5% 5%;
+}
+
+.welcomeheader{
+  float: right;
+  font-weight: bold;
+}
+
+#future{
+  width: 80%;
+  margin: 2.5% 0 5% 5%;
+}
+
+#past{
+  width: 80%;
+  margin: 2.5% 0 5% 5%;
+}
+
+ul.footer li{
+  display: inline;
+}
+
+#account{
+  width: 50%;
+  margin: 1% 0 2.5% 5%;
+}
+
+.accountheader{
+  width: 75%;
+  border-bottom: 1px solid #bdbdbd;
+
+}
+
+.accountheader h3{
+  width: 90%;
+  font-weight: bold;
+}
+
+.form{
+  width: 36%;
+  display: inline-block;
+  vertical-align: top;
+  margin: 2.5% 2.5% 2.5% 0%;
+}
+
+div.errors{
+  width: 25%;
+  margin: 2.5% 0 0 5%;
+}

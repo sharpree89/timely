@@ -1,170 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  {% load staticfiles %}
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
-  <link rel="stylesheet" href="{% static 'css/style.css' %}" media="screen" title="no title" charset="utf-8">
-  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
-  <script type="text/javascript">
-    $(document).ready(function() {
-    $('select').material_select();
-    });
-  </script>
-  <title>timely</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"> {% load staticfiles %}
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+    <link rel="stylesheet" href="{% static 'main_app/css/style.css' %}" media="screen" title="no title" charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('select').material_select();
+            $('.newbutton').hover(function(){
+                $(this).css("background-color", "#4dd0e1");
+                }, function(){
+                $(this).css("background-color", "#00b8d4");
+            });
+        });
+    </script>
+    <title>timely</title>
 </head>
 <body>
 
-  <div class="navbar-fixed">
-    <nav>
-      <div class="nav-wrapper">
-        <a href="#" class="brand-logo">&#x1f552; timely</a>
-        <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <li>Welcome, {{ request.session.username }}</li>
-          <li><a href="{% url 'appts:appts' %}">My Schedule</a></li>
-          <li><a href="{% url 'appts:history' %}">My History</a></li>
-          <li><a href="{% url 'appts:account' %}">My Account</a></li>
-          <li><a href="{% url 'appts:logout' %}">Log Out</a></li>
-        </ul>
-      </div>
-    </nav>
-  </div>
+    <div class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper cyan lighten-2">
+              <a href="#" class="brand-logo"><img class="navpics" src="{% static 'main_app/img/alarm-clock-white.png' %}" alt="Alarm Clock" style="margin-right: 5%;">timely</a>
+              <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="{% url 'appts:appts' %}">Home</a></li>
+                <li><a href="{% url 'appts:new' %}">Add New</a></li>
+                <li><a href="{% url 'appts:history' %}">History</a></li>
+                <li><a href="{% url 'appts:account' %}">Account</a></li>
+                <li><a href="{% url 'appts:logout' %}">Log Out</a></li>
+              </ul>
+            </div>
+        </nav>
+    </div>
 
-  {% if messages %}
-    {% for message in messages %}
-      {% if message.tags %}
-        <h5>{{ message }}</h5>
-      {% endif %}>
-    {% endfor %}
-  {% endif %}
+    <div class="errors">
+      {% if messages %}
+        {% for message in messages %}
+          {% if message.tags %}
+            <p class="p">{{ message }}</p>
+          {% endif %}>
+        {% endfor %}
+      {% endif %}
+    </div>
 
-  <div id="edit">
-    <h4 class="header">Edit "{{ appt.my_task }}"</h4>
-    <form action="{% url 'appts:process' appt_id=appt.id %}" method='post'>
-      {% csrf_token %}
-      <label for="status">Status</label>
-      <select name='status' value='{{ appt.my_status }}'>
-          <option value='Pending'>Pending</option>
-          <option value='Complete'>Complete</option>
-       </select>
+    <div id="editcontainer">
+        <form action="{% url 'appts:process' appt_id=appt.id %}" method='post'>
+          <h3 class="editheader">Edit "{{ appt.my_task }}"</h3>
+            {% csrf_token %}
+            <div class="edit">
+                <label for="task">Title</label>
+                <input type='text' name='task' value='{{ appt.my_task }}' autofocus>
 
-      <label for="task">Title</label>
-      <input type='text' name='task' value='{{ appt.my_task }}'>
+                <label for="date">Date</label>
+                <input type='date' name='date' value='{{ appt.my_date | date:"Y-m-d" }}'>
 
-      <label for="date">Date</label>
-      <input type='date' name='date' value='{{ appt.my_date | date:"Y-m-d" }}'>
+                <label for="time">Time</label>
+                <input type='time' name='time' value='{{ appt.my_time | time:"H:i" }}'>
 
-      <label for="time">Time</label>
-      <input type='time' name='time' value='{{ appt.my_time | time:"H:i" }}'>
+                <label for="location">Location</label>
+                <input type='text' name='location' value='{{ appt.my_location }}'>
+            </div>
+            <div class="edit">
+                <label for="type">Type</label>
+                <div class="input-field">
+                    <select name='type'>
+                      <option value="Choose One">Choose One</option>
+                      <option value="Appointment">Appointment</option>
+                      <option value="Meeting">Meeting</option>
+                      <option value="To Do">To Do</option>
+                      <option value="Social">Social</option>
+                      <option value="Family">Family</option>
+                      <option value="Holiday">Holiday</option>
+                      <option value="Vacation">Vacation</option>
+                      <option value="Event">Event</option>
+                      <option value="Work">Work</option>
+                      <option value="School">School</option>
+                      <option value="Other">Other</option>
+                    </select>
+                </div>
 
-      <label for="location">Location</label>
-      <input type='text' name='location' value='{{ appt.my_location }}'>
+                <label for="priority">Priority</label>
+                <div class="input-field">
+                    <select name='priority'>
+                      <option value="Choose One">Choose One</option>
+                      <option value="Low">Low</option>
+                      <option value="Medium">Medium</option>
+                      <option value="High">High</option>
+                    </select>
+                </div>
 
-      <label for="type">Type (Required)</label>
-      <div class="input-field">
-        <select name='type' value='{{ appt.my_type }}'>
-          <option value="Appointment">Appointment</option>
-          <option value="Meeting">Meeting</option>
-          <option value="To Do">To Do</option>
-          <option value="Reminder">Reminder</option>
-          <option value="Social">Social</option>
-          <option value="Family">Family</option>
-          <option value="Event">Event</option>
-          <option value="Work">Work</option>
-          <option value="School">School</option>
-          <option value="Kids">Kids</option>
-          <option value="Other">Other</option>
-        </select>
-      </div>
+                <label for="status">Status</label>
+                <div class="input-field">
+                    <select name='status'>
+                      <option value="Choose One">Choose One</option>
+                      <option value='Pending'>Pending</option>
+                      <option value='Complete'>Complete</option>
+                   </select>
+                </div>
+                <br>
+                <input class="newbutton" type='submit' value='Save Changes'>
+                <input type='hidden' name='appt_id' value='{{ appt.id }}'>
+          </div>
+        </form>
+        <h5 style="font-weight: bold; margin-left: 32px;">{{ success }}</h5>
+    </div>
 
-      <label for="priority">Priority (Required)</label>
-      <div class="input-field">
-        <select name='priority' value='{{ appt.my_priority }}'>
-          <option value="Low">Low</option>
-          <option value="Medium">Medium</option>
-          <option value="High">High</option>
-        </select>
-      </div>
-
-      <label for="symbol">Icon</label>
-      <div class="input-field">
-        <select name='symbol' value='{{ appt.my_symbol }}'>
-          <option value="&#x2764;">&#x2764;</option>
-          <option value="&#x263a;">&#x263a;</option>
-          <option value="&#9785;">&#9785;</option>
-          <option value="&#x2606;">&#x2606;</option>
-          <option value="&#x2605;">&#x2605;</option>
-          <option value="&#x2661;">&#x2661;</option>
-          <option value="&#x2665;">&#x2665;</option>
-          <option value="&#x2667;">&#x2667;</option>
-          <option value="&#x2663;">&#x2663;</option>
-          <option value="&#x2662;">&#x2662;</option>
-          <option value="&#x2666;">&#x2666;</option>
-          <option value="&#x2664;">&#x2664;</option>
-          <option value="&#x2660;">&#x2660;</option>
-          <option value="&#x2655;">&#x2655;</option>
-          <option value="&#x265b;">&#x265b;</option>
-          <option value="&#x260f;">&#x260f;</option>
-          <option value="&#x260e;">&#x260e;</option>
-          <option value="&#x2709;">&#x2709;</option>
-          <option value="&#x270e;">&#x270e;</option>
-          <option value="&#x2708;">&#x2708;</option>
-          <option value="&#x21e6;">&#x21e6;</option>
-          <option value="&#x21e8;">&#x21e8;</option>
-          <option value="&#x2640;">&#x2640;</option>
-          <option value="&#x2642;">&#x2642;</option>
-          <option value="&#x266a;">&#x266a;</option>
-          <option value="&#x266b;">&#x266b;</option>
-          <option value="&#x2600;">&#x2600;</option>
-          <option value="&#x263c;">&#x263c;</option>
-          <option value="&#x2601;">&#x2601;</option>
-          <option value="&#x2746;">&#x2746;</option>
-          <option value="&#x2745;">&#x2745;</option>
-          <option value="&#x2744;">&#x2744;</option>
-          <option value="&#9731;">&#9731;</option>
-          <option value="&#10049;">&#10049;</option>
-          <option value="&#10047;">&#10047;</option>
-          <option value="&#2384;">&#2384;</option>
-          <option value="&#9775;">&#9775;</option>
-          <option value="&#9841;">&#9841;</option>
-          <option value="&#10017;">&#10017;</option>
-          <option value="&#x2714;">&#x2714;</option>
-          <option value="&#xd7;">&#xd7;</option>
-          <option value="&#10102;">&#10102;</option>
-          <option value="&#10103;">&#10103;</option>
-          <option value="&#10104;">&#10104;</option>
-          <option value="&#10105;">&#10105;</option>
-          <option value="&#10106;">&#10106;</option>
-          <option value="&#10107;">&#10107;</option>
-          <option value="&#10108;">&#10108;</option>
-          <option value="&#10109;">&#10109;</option>
-          <option value="&#10110;">&#10110;</option>
-          <option value="&#10111;">&#10111;</option>
-        </select>
-      </div>
-      <input class="button" type='submit' value='Save Changes'>
-      <input type='hidden' name='appt_id' value='{{ appt.id }}'>
-    </form>
-  </div>
-
-  <footer class="page-footer">
-    <div class="container">
-      <div class="row">
-        <div class="col l6 s12">
-          <h5 class="white-text">thanks for using timely!</h5>
+    <footer class="page-footer cyan accent-4">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">thanks for using timely!</h5>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="footer-copyright">
-      <div class="container">
-      © 2016 Copyright Preeya Sharma
-      <a class="grey-text text-lighten-4 right" href="https://github.com/sharpree89">github</a>
-      </div>
-    </div>
-  </footer>
-
+        <div class="footer-copyright">
+          <div class="container">
+            <ul class="footer">
+              <li><a class="grey-text text-lighten-4 right" href="https://www.flaticon.com">Icons By Freepik</a></li>
+              <li><a class="grey-text text-lighten-4 right" href="#" style="margin-right: 5%;">Copyright © 2016 timely</a></li>
+            </ul>
+          </div>
+        </div>
+    </footer>
 </body>
 </html>

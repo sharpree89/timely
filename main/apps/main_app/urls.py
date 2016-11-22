@@ -5,7 +5,7 @@ urlpatterns = [
 
     url(r'^$', views.login_home, name='login_home'),
     #redirects to the login page
-    url(r'^$', views.register_home, name='register_home'),
+    url(r'^signup$', views.register_home, name='register_home'),
     #redirects to the register page
     url(r'^appts$', views.appts, name='appts'),
     #displays today's appts as well as upcoming appts,
@@ -30,8 +30,14 @@ urlpatterns = [
     # #redirects to /appts
     url(r'^account$', views.account, name='account'),
     #displays a form update account details
-    url(r'^process_account/(?P<user_id>\d+)$$', views.process_account, name='process_account'),
-    #processes any changes to account details
+    url(r'^change_username/(?P<user_id>\d+)$$', views.change_username, name='change_username'),
+    #processes any changes to user's username
+    #redirects to /account
+    url(r'^change_email/(?P<user_id>\d+)$$', views.change_email, name='change_email'),
+    #processes any changes to user's email
+    #redirects to /account
+    url(r'^change_password/(?P<user_id>\d+)$$', views.change_password, name='change_password'),
+    #processes any changes to user's password
     #redirects to /account
     url(r'^delete_account/(?P<user_id>\d+)$', views.delete_account, name='delete_account'),
     # #delete link deletes the user's account

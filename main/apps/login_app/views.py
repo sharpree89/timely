@@ -37,6 +37,3 @@ def login(request):
         messages.error(request, error)
 
     return redirect(reverse ('login:login_home'))
-
-# def success(request):
-#     return render(request, 'login_app/success.html')

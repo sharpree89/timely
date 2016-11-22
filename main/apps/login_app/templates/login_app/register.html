@@ -5,18 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   {% load staticfiles %}
+  <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
-  <link rel="stylesheet" href="{% static 'css/style.css' %}" media="screen" title="no title" charset="utf-8">
+  <link rel="stylesheet" href="{% static 'login_app/css/style.css' %}" media="screen" title="no title" charset="utf-8">
   <title>timely</title>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.button').hover(function(){
+          $(this).css("background-color", "#4dd0e1");
+          }, function(){
+          $(this).css("background-color", "#00b8d4");
+      });
+    });
+  </script>
 </head>
 <body>
 
   <div class="navbar-fixed">
     <nav>
-      <div class="nav-wrapper">
-        <a href="#" class="brand-logo">&#x1f552; timely</a>
+      <div class="nav-wrapper cyan lighten-2">
+        <a href="#" class="brand-logo"><img src="{% static 'login_app/img/alarm-clock-white.png' %}" style="margin-right: 5%;">timely</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <li><a href="#">Welcome!</a></li>
           <li class="active"><a href="#">Register</a></li>
           <li><a href="{% url 'login:login_home' %}">Login</a></li>
         </ul>
@@ -24,14 +34,18 @@
     </nav>
   </div>
 
-  <div id="register">
-    <h4 class="header">Register</h4>
+  <div class="errors">
     {% if messages %}
       {% for message in messages %}
-          <p>{% if message.tags %} class="{{ message.tags }}"
-            {% endif %}> {{ message }} </p>
+        {% if message.tags %}
+          <p class="p">{{ message }}</p>
+        {% endif %}>
       {% endfor %}
     {% endif %}
+  </div>
+
+  <div id="register">
+    <h3 class="registerheader">Register</h3>
     <form action="{% url 'login:register' %}" method='post'>
         {% csrf_token %}
       Username: <input type="text" name='username' autofocus>
@@ -42,7 +56,7 @@
     </form>
   </div>
 
-  <footer class="page-footer">
+  <footer class="page-footer cyan accent-4">
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
@@ -52,8 +66,10 @@
     </div>
     <div class="footer-copyright">
       <div class="container">
-      © 2016 Copyright Preeya Sharma
-      <a class="grey-text text-lighten-4 right" href="https://github.com/sharpree89">github</a>
+        <ul class="footer">
+          <li><a class="grey-text text-lighten-4 right" href="https://www.flaticon.com">Icons By Freepik</a></li>
+          <li><a class="grey-text text-lighten-4 right" href="#" style="margin-right: 5%;">Copyright © 2016 timely</a></li>
+        </ul>
       </div>
     </div>
   </footer>
