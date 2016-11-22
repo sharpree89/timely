@@ -63,6 +63,16 @@ main{
   padding: 14px 28px;
 }
 
+.dropdownbutton{
+  background-color: #00b8d4;
+  color: white;
+  box-shadow: none !important;
+  border: none !important;
+  outline: none !important;
+  padding: 14px 28px;
+
+}
+
 .newbutton{
   background-color: #00b8d4;
   color: white;
@@ -108,6 +118,12 @@ td.last{
   border: none !important;
   outline: none !important;
   padding: 6% 12%;
+}
+
+.dropdown-button{
+  box-shadow: none !important;
+  border: none !important;
+  outline: none !important;
 }
 
 #newcontainer{
@@ -174,7 +190,6 @@ ul.footer li{
 .accountheader{
   width: 75%;
   border-bottom: 1px solid #bdbdbd;
-
 }
 
 .accountheader h3{

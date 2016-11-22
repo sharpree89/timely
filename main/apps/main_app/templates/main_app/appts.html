@@ -13,6 +13,11 @@
   <script type="text/javascript">
     $(document).ready(function() {
       $('select').material_select();
+      $('.prioritybutton').hover(function(){
+          $(this).css("background-color", "#4dd0e1");
+          }, function(){
+          $(this).css("background-color", "#00b8d4");
+      });
     });
   </script>
   <title>timely</title>
@@ -24,10 +29,10 @@
       <div class="nav-wrapper cyan lighten-2">
         <a href="#" class="brand-logo"><img class="navpics" src="{% static 'main_app/img/alarm-clock-white.png' %}" alt="Alarm Clock" style="margin-right: 5%;">timely</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <li class="active tooltipped" data-position="bottom" data-delay="50" data-tooltip="View Upcoming Appointments"><a href="{% url 'appts:appts' %}">Home</a></li>
-          <li class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Add A New Appointment"><a href="{% url 'appts:new' %}">Add New</a></li>
-          <li class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="View Appointment History"><a href="{% url 'appts:history' %}">History</a></li>
-          <li class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Update Account Settings"><a href="{% url 'appts:account' %}">Account</a></li>
+          <li class="active"><a href="{% url 'appts:appts' %}">My Schedule</a></li>
+          <li><a href="{% url 'appts:new' %}">Add New Task</a></li>
+          <li><a href="{% url 'appts:history' %}">Completed Tasks</a></li>
+          <li><a href="{% url 'appts:account' %}">My Account</a></li>
           <li class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Come Back Soon!"><a href="{% url 'appts:logout' %}">Log Out</a></li>
         </ul>
       </div>
@@ -44,16 +49,16 @@
     <table class="striped">
       <tr style="display: none;"></tr>
       <tr class="tableheader">
-        <th>Title</th>
+        <th>Task</th>
         <th>Date</th>
         <th>Time</th>
         <th>Location</th>
         <th>Type</th>
         <th>Priority</th>
         <th>Status</th>
-        <th>Edit</th>
-        <th>Delete</th>
-        <th>Actions</th>
+        <th></th>
+        <th></th>
+        <th></th>
       </tr>
       {% for appt in my_today_appts %}
         <tr class="tabledata">
@@ -79,9 +84,7 @@
             <a href="{% url 'appts:complete' appt_id=appt.id %}" class="url tooltipped" data-position="right" data-delay="50" data-tooltip="Mark As Complete"><img src="{% static 'main_app/img/checked.png' %}" alt="Mark Complete"></a>
           </td>
           {% else %}
-          <td>
-            <img src="{% static 'main_app/img/smartphone.png' %}" alt="Text Alert" class="tooltipped" data-position="right" data-delay="50" data-tooltip="Text Me (Coming Soon!)">
-          </td>
+          <td></td>
           {% endif %}
         </tr>
       {% endfor %}
@@ -98,16 +101,15 @@
     <table class="striped">
       <tr style="display: none;"></tr>
       <tr class="tableheader">
-        <th>Title</th>
+        <th>Task</th>
         <th>Date</th>
         <th>Time</th>
         <th>Location</th>
         <th>Type</th>
         <th>Priority</th>
         <th>Status</th>
-        <th>Edit</th>
-        <th>Delete</th>
-        <th>Actions</th>
+        <th></th>
+        <th></th>
       </tr>
       {% for appt in my_future_appts %}
         <tr class="tabledata">
@@ -127,9 +129,6 @@
           </td>
           <td>
             <a href="{% url 'appts:delete' appt_id=appt.id %}" class="url tooltipped" data-position="right" data-delay="50" data-tooltip="Delete Appointment"><img src="{% static 'main_app/img/trash.png' %}" alt="Delete"></a>
-          </td>
-          <td>
-            <img src="{% static 'main_app/img/smartphone.png' %}" alt="Text Alert" class="tooltipped" data-position="right" data-delay="50" data-tooltip="Text Me (Coming Soon!)">
           </td>
         </tr>
       {% endfor %}

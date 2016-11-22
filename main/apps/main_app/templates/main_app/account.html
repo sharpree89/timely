@@ -29,11 +29,11 @@
       <div class="nav-wrapper cyan lighten-2">
         <a href="#" class="brand-logo"><img class="navpics" src="{% static 'main_app/img/alarm-clock-white.png' %}" alt="Alarm Clock" style="margin-right: 5%;">timely</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <li><a href="{% url 'appts:appts' %}">Home</a></li>
-          <li><a href="{% url 'appts:new' %}">Add New</a></li>
-          <li><a href="{% url 'appts:history' %}">History</a></li>
-          <li class="active"><a href="{% url 'appts:account' %}">Account</a></li>
-          <li><a href="{% url 'appts:logout' %}">Log Out</a></li>
+          <li><a href="{% url 'appts:appts' %}">My Schedule</a></li>
+          <li><a href="{% url 'appts:new' %}">Add New Task</a></li>
+          <li><a href="{% url 'appts:history' %}">Completed Tasks</a></li>
+          <li class="active"><a href="{% url 'appts:account' %}">My Account</a></li>
+          <li class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Come Back Soon!"><a href="{% url 'appts:logout' %}">Log Out</a></li>
         </ul>
       </div>
     </nav>
