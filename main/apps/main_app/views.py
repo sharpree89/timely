@@ -63,6 +63,21 @@ def history(request):
     }
     return render(request, 'main_app/history.html', context)
 
+def missed(request):
+
+    now = datetime.datetime.now()
+
+    context = {
+        'my_missed_appts':
+            Appt.objects.filter(
+            Q(user__id=request.session['user_id']) &
+            Q(my_date__lte=now) &
+            Q(my_status='Pending')
+            ).order_by('my_date', 'my_time'
+            ).reverse()
+    }
+    return render(request, 'main_app/missed.html', context)
+
 def new(request):
 
     return render(request, 'main_app/new.html')

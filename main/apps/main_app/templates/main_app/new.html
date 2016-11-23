@@ -30,9 +30,10 @@
         <a href="#" class="brand-logo"><img class="navpics" src="{% static 'main_app/img/alarm-clock-white.png' %}" alt="Alarm Clock" style="margin-right: 5%;">timely</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
           <li><a href="{% url 'appts:appts' %}">Home</a></li>
-          <li class="active"><a href="{% url 'appts:new' %}">Add New</a></li>
-          <li><a href="{% url 'appts:history' %}">History</a></li>
-          <li><a href="{% url 'appts:account' %}">Account</a></li>
+          <li class="active"><a href="{% url 'appts:new' %}">Add New Task</a></li>
+          <li><a href="{% url 'appts:history' %}">Completed Tasks</a></li>
+          <li><a href="{% url 'appts:missed' %}">Missed Tasks</a></li>
+          <li><a href="{% url 'appts:account' %}">My Account</a></li>
           <li><a href="{% url 'appts:logout' %}">Log Out</a></li>
         </ul>
       </div>
@@ -43,8 +44,8 @@
     {% if messages %}
       {% for message in messages %}
         {% if message.tags %}
-          <p class="p">{{ message }}</p>
-        {% endif %}>
+          <h5>{{ message }}</h5>
+        {% endif %}
       {% endfor %}
     {% endif %}
   </div>
@@ -54,7 +55,7 @@
       <h3 class="newheader">Add A New Appointment</h3>
       {% csrf_token %}
       <div class="new">
-          <label for="task">Title</label>
+          <label for="task">Task</label>
           <input type='text' name='task' placeholder="'Coffee Date With Cassidy'" autofocus>
 
           <label for="date">Date</label>
@@ -109,7 +110,7 @@
   </div>
 
 
-  <footer class="page-footer cyan accent-4">
+  <!-- <footer class="page-footer cyan accent-4">
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
@@ -125,7 +126,6 @@
         </ul>
       </div>
     </div>
-  </footer>
-
+  </footer> -->
 </body>
 </html>

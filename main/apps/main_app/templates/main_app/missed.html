@@ -29,10 +29,10 @@
       <div class="nav-wrapper cyan lighten-2">
         <a href="#" class="brand-logo"><img class="navpics" src="{% static 'main_app/img/alarm-clock-white.png' %}" alt="Alarm Clock" style="margin-right: 5%;">timely</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <li class="active"><a href="{% url 'appts:appts' %}">Home</a></li>
+          <li><a href="{% url 'appts:appts' %}">Home</a></li>
           <li><a href="{% url 'appts:new' %}">Add New Task</a></li>
           <li><a href="{% url 'appts:history' %}">Completed Tasks</a></li>
-          <li><a href="{% url 'appts:missed' %}">Missed Tasks</a></li>
+          <li class="active"><a href="{% url 'appts:missed' %}">Missed Tasks</a></li>
           <li><a href="{% url 'appts:account' %}">My Account</a></li>
           <li class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Come Back Soon!"><a href="{% url 'appts:logout' %}">Log Out</a></li>
         </ul>
@@ -40,13 +40,11 @@
     </nav>
   </div>
 
-  <div id="today">
-    <h5 class="welcomeheader">Welcome, {{ request.session.username }}!</h5>
-    <h3 class="header">{{ today }}</h3>
-    <hr>
-    {% if my_today_appts|length == 0 %}
-    <h5>You have no appointments scheduled for today.</h5>
-    {% elif my_today_appts|length > 0 %}
+  <div id="missed">
+    <h3>Missed Tasks</h3>
+    {% if my_missed_appts|length == 0 %}
+    <h5>You are all caught up on your tasks!</h5>
+    {% elif my_missed_appts|length > 0 %}
     <table class="striped">
       <tr style="display: none;"></tr>
       <tr class="tableheader">
@@ -61,58 +59,7 @@
         <th></th>
         <th></th>
       </tr>
-      {% for appt in my_today_appts %}
-        <tr class="tabledata">
-          <td>{{ appt.my_task }}</td>
-          <td>{{ appt.my_date }}</td>
-          <td>{{ appt.my_time }}</td>
-          <td>{{ appt.my_location }}</td>
-          <td>{{ appt.my_type }}</td>
-          {% if appt.my_priority == 'High' %}
-          <td><button class="prioritybutton">{{ appt.my_priority }}</button></td>
-          {% else %}
-          <td>{{ appt.my_priority }}</td>
-          {% endif %}
-          <td>{{ appt.my_status }}</td>
-          <td>
-            <a href="{% url 'appts:edit' appt_id=appt.id %}" class="url tooltipped" data-position="right" data-delay="50" data-tooltip="Edit Appointment"><img src="{% static 'main_app/img/edit.png' %}" alt="Edit"></a>
-          </td>
-          <td>
-            <a href="{% url 'appts:delete' appt_id=appt.id %}" class="url tooltipped" data-position="right" data-delay="50" data-tooltip="Delete Appointment"><img src="{% static 'main_app/img/trash.png' %}" alt="Delete"></a>
-          </td>
-          {% if appt.my_time < right_now and appt.my_status == 'Pending' %}
-          <td>
-            <a href="{% url 'appts:complete' appt_id=appt.id %}" class="url tooltipped" data-position="right" data-delay="50" data-tooltip="Mark As Complete"><img src="{% static 'main_app/img/checked.png' %}" alt="Mark Complete"></a>
-          </td>
-          {% else %}
-          <td></td>
-          {% endif %}
-        </tr>
-      {% endfor %}
-    </table>
-    {% endif %}
-  </div>
-
-  <div id="future">
-    <h4 class="header">Upcoming appointments</h4>
-    <hr>
-    {% if my_future_appts|length == 0 %}
-    <h5>You have no upcoming appointments scheduled.</h5>
-    {% elif my_future_appts|length > 0 %}
-    <table class="striped">
-      <tr style="display: none;"></tr>
-      <tr class="tableheader">
-        <th>Task</th>
-        <th>Date</th>
-        <th>Time</th>
-        <th>Location</th>
-        <th>Type</th>
-        <th>Priority</th>
-        <th>Status</th>
-        <th></th>
-        <th></th>
-      </tr>
-      {% for appt in my_future_appts %}
+      {% for appt in my_missed_appts %}
         <tr class="tabledata">
           <td>{{ appt.my_task }}</td>
           <td>{{ appt.my_date }}</td>

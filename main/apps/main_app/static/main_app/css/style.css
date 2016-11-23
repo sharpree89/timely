@@ -21,7 +21,7 @@ main{
 }
 
 .editheader{
-  margin: 0 2.5% 2.5% 0;
+  margin: 2.5% 2.5% 2.5% 0;
   border-bottom: 1px solid #bdbdbd;
   padding-bottom: 1%;
   width: 43%;
@@ -159,6 +159,11 @@ td.last{
 }
 
 #today{
+  width: 80%;
+  margin: 2.5% 0 2.5% 5%;
+}
+
+#missed{
   width: 80%;
   margin: 2.5% 0 2.5% 5%;
 }

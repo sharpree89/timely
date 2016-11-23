@@ -29,9 +29,10 @@
       <div class="nav-wrapper cyan lighten-2">
         <a href="#" class="brand-logo"><img class="navpics" src="{% static 'main_app/img/alarm-clock-white.png' %}" alt="Alarm Clock" style="margin-right: 5%;">timely</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-          <li><a href="{% url 'appts:appts' %}">My Schedule</a></li>
+          <li><a href="{% url 'appts:appts' %}">Home</a></li>
           <li><a href="{% url 'appts:new' %}">Add New Task</a></li>
           <li><a href="{% url 'appts:history' %}">Completed Tasks</a></li>
+          <li><a href="{% url 'appts:missed' %}">Missed Tasks</a></li>
           <li class="active"><a href="{% url 'appts:account' %}">My Account</a></li>
           <li class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Come Back Soon!"><a href="{% url 'appts:logout' %}">Log Out</a></li>
         </ul>
@@ -43,8 +44,8 @@
     {% if messages %}
       {% for message in messages %}
         {% if message.tags %}
-          <p class="p">{{ message }}</p>
-        {% endif %}>
+          <h5>{{ message }}</h5>
+        {% endif %}
       {% endfor %}
     {% endif %}
   </div>
@@ -91,14 +92,14 @@
     <form action="{% url 'appts:delete_account' user_id=user.id %}" method='post' class="form">
       {% csrf_token %}
       <label for="deleteaccount">Delete Account</label>
-      <p class="p">By clicking this button, you agree to delete your timely account and all appointments associated with your account.</p>
+      <p class="p">By clicking this button, you agree to delete your timely account and all tasks associated with your account.</p>
       <p class="p" style="padding-bottom: 1%;">This is a permanent action that cannot be undone. Are you sure you want to go?</p>
       <input class="button" type='submit' value='Yes, Delete My Account' name="deleteaccount">
       <input type='hidden' name='user_id' value='{{ user.id }}'>
     </form>
   </div>
 
-  <footer class="page-footer cyan accent-4">
+  <!-- <footer class="page-footer cyan accent-4">
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
@@ -114,7 +115,7 @@
         </ul>
       </div>
     </div>
-  </footer>
+  </footer> -->
 
 </body>
 </html>

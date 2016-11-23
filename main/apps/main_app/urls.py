@@ -11,7 +11,9 @@ urlpatterns = [
     #displays today's appts as well as upcoming appts,
     #displays an edit appt link, and a delete appt link
     url(r'^history$', views.history, name='history'),
-    #displays user's full appointment history
+    #displays user's completed appointment history,
+    url(r'^missed$', views.missed, name='missed'),
+    #displays user's missed appointment history
     url(r'^new$', views.new, name='new'),
     #displays a form to add a new appt
     url(r'^add$', views.add, name='add'),

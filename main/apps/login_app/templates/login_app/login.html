@@ -43,8 +43,8 @@
     {% if messages %}
       {% for message in messages %}
         {% if message.tags %}
-          <p class="p">{{ message }}</p>
-        {% endif %}>
+          <h5>{{ message }}</h5>
+        {% endif %}
       {% endfor %}
     {% endif %}
   </div>
@@ -61,7 +61,7 @@
     <h5><a href="{% url 'login:register_home' %}" class="url">Don't have an account? Sign up today!</a></h5>
   </div>
 
-  <footer class="page-footer cyan accent-4">
+  <!-- <footer class="page-footer cyan accent-4">
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
@@ -77,7 +77,6 @@
         </ul>
       </div>
     </div>
-  </footer>
-
+  </footer> -->
 </body>
 </html>

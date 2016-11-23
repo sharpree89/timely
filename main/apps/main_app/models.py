@@ -10,13 +10,13 @@ class ApptManager(models.Manager):
         now = strftime("%H-%M")
 
         if data['task'] == "":
-            errors.append('Please enter a task!')
+            errors.append('Please enter a task.')
         if data['date'] == "" or data['date'] < today:
-            errors.append('Please enter a valid date!')
+            errors.append('Please enter a valid date.')
         if data['time'] == "" or data['date'] == today and data['time'] < now:
-            errors.append('Please enter a valid time!')
+            errors.append('Please enter a valid time.')
         if data['location'] == "":
-            errors.append('Please enter a location!')
+            errors.append('Please enter a location.')
 
         if errors:
             return (True, errors)
