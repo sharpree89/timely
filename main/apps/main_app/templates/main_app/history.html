@@ -58,6 +58,7 @@
         <th>Status</th>
         <th>Edit</th>
         <th>Delete</th>
+        <th>Complete</th>
       </tr>
       {% for appt in my_past_appts %}
         <tr>
@@ -77,6 +78,9 @@
           </td>
           <td>
             <a href="{% url 'appts:delete' appt_id=appt.id %}" class="url tooltipped" data-position="right" data-delay="50" data-tooltip="Delete Appointment"><img src="{% static 'main_app/img/trash.png' %}" alt="Delete"></a>
+          </td>
+          <td>
+            <a href="{% url 'appts:complete' appt_id=appt.id %}" class="url tooltipped" data-position="right" data-delay="50" data-tooltip="Complete"><img src="{% static 'main_app/img/checked.png' %}" alt="Complete"></a>
           </td>
         </tr>
       {% endfor %}

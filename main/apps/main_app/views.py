@@ -27,25 +27,31 @@ def appts(request):
     now = datetime.datetime.now()
 
     context = {
-        # 'my_appt': Appt.objects.filter(user__id=request.session['user_id']),
-        'today': now.strftime('%A, ' + '%B ' + '%d, ' + '%Y'),
-        # 'appt': Appt.objects.all(),
-        'right_now': datetime.datetime.now().time(),
-
-        'my_future_appts':
+        'my_appts':
             Appt.objects.filter(
             Q(user__id=request.session['user_id']) &
             Q(my_date__gte=now)
-            ).exclude(my_date__lte=now, my_date__gte=now
             ).exclude(my_status='Complete'
             ).order_by('my_date', 'my_time'),
 
-        'my_today_appts':
-            Appt.objects.filter(
-            Q(user__id=request.session['user_id']) &
-            Q(my_date__lte=now, my_date__gte=now)
-            ).exclude(my_status='Complete'
-            ).order_by('my_time')
+        'today': now.strftime('%A, ' + '%B ' + '%d, ' + '%Y'),
+        # 'appt': Appt.objects.all(),
+        'right_now': datetime.datetime.now().time()
+
+        # 'my_future_appts':
+        #     Appt.objects.filter(
+        #     Q(user__id=request.session['user_id']) &
+        #     Q(my_date__gte=now)
+        #     ).exclude(my_date__lte=now, my_date__gte=now
+        #     ).exclude(my_status='Complete'
+        #     ).order_by('my_date', 'my_time'),
+        #
+        # 'my_today_appts':
+        #     Appt.objects.filter(
+        #     Q(user__id=request.session['user_id']) &
+        #     Q(my_date__lte=now, my_date__gte=now)
+        #     ).exclude(my_status='Complete'
+        #     ).order_by('my_time')
     }
     return render(request, 'main_app/appts.html', context)
 
@@ -58,7 +64,7 @@ def history(request):
             Appt.objects.filter(
             Q(user__id=request.session['user_id']) &
             Q(my_status='Complete')
-            ).order_by('my_date', 'my_time'
+            ).order_by('updated_at'
             ).reverse()
     }
     return render(request, 'main_app/history.html', context)
@@ -73,6 +79,7 @@ def missed(request):
             Q(user__id=request.session['user_id']) &
             Q(my_date__lte=now) &
             Q(my_status='Pending')
+            ).exclude(my_date__lte=now, my_date__gte=now
             ).order_by('my_date', 'my_time'
             ).reverse()
     }
@@ -99,10 +106,8 @@ def add(request):
             my_status='Pending'
         )
         new_appt.save()
-        context = {
-            'success': "'" + request.POST['task'] + "'" + " has been added to your schedule!"
-        }
-        return render(request, 'main_app/new.html', context)
+
+        return redirect(reverse ('appts:appts'))
     else:
         errors = appt[1]
         for error in errors:
@@ -147,11 +152,8 @@ def process(request, appt_id):
             appt.my_priority = request.POST['priority']
             appt.my_status = request.POST['status']
             appt.save()
-            context = {
-                'appt': Appt.objects.get(id=appt_id),
-                'success': "Changes to " + "'" + request.POST['task'] + "'" + " have been saved!"
-            }
-            return render(request, 'main_app/edit.html', context)
+
+            return redirect(reverse ('appts:appts'))
 
 def complete(request, appt_id):
 
